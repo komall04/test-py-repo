@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Section</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Background Image Styling */
+        body {
+            background-image: url("{{ url_for('static', filename='images/background2.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Upgrade Section Styling */
+        .upgrade-section {
+            padding: 50px 0;
+        }
+
+        .upgrade-box {
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .upgrade-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 10px 30px rgba(0, 123, 255, 0.3);
+        }
+
+        .upgrade-box h4 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
+        .upgrade-box p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .upgrade-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upgrade-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styling for Plan Images */
+        .plan-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5 upgrade-section">
+    <h1 class="text-center mb-4">Upgrade Your Plan</h1>
+    <p class="text-center mb-4" style="font-size: 16px;">Choose the best plan that suits your needs and start learning!</p>
+
+    <!-- 3 Boxes for Upgrade Section -->
+    <div class="row">
+        <!-- Free Plan Box -->
+        <div class="col-md-4 d-flex">
+            <div class="upgrade-box">
+                <img src="{{ url_for('static', filename='images/balloon.gif') }}" alt="Free Plan Image" class="plan-image">
+                <h4>Free Plan</h4>
+                <p>Get limited access to basic features and content. Great for getting started!</p>
+                <!-- Changed the button to a link to the login page -->
+                <a href="/login" class="upgrade-btn">Get Started</a>
+            </div>
+        </div>
+
+        <!-- Standard Plan Box -->
+        <div class="col-md-4 d-flex">
+            <div class="upgrade-box">
+                <img src="{{ url_for('static', filename='images/balloon1.gif') }}" alt="Standard Plan Image" class="plan-image">
+                <h4>Standard Plan</h4>
+                <p>Unlock additional features and content. Best for intermediate users.</p>
+                <button class="upgrade-btn">Upgrade</button>
+            </div>
+        </div>
+
+        <!-- Premium Plan Box -->
+        <div class="col-md-4 d-flex">
+            <div class="upgrade-box">
+                <img src="{{ url_for('static', filename='images/balloon3.gif') }}" alt="Premium Plan Image" class="plan-image">
+                <h4>Premium Plan</h4>
+                <p>Get full access to all features and exclusive content. Ideal for professionals!</p>
+                <button class="upgrade-btn">Upgrade</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

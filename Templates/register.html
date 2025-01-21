@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .form-group {
+            text-align: left;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Flash messages */
+        .flashes {
+            list-style-type: none;
+            padding: 0;
+        }
+        .flashes li.success {
+            background-color: #4CAF50;
+            padding: 10px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .flashes li.danger {
+            background-color: #f44336;
+            padding: 10px;
+            color: white;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter your username" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required><br>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+        <p><a href="{{ url_for('login') }}">Already have an account? Login here.</a></p>
+    </div>
+</body>
+</html>

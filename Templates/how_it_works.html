@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='images/background2.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .container {
+            padding-top: 50px;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+
+        .summary {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .steps-btn {
+            margin: 10px 0;
+            padding: 8px 16px;
+            width: 50%;  /* Decreased width */
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .steps-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Modal Style for Centering */
+        .modal-dialog-centered {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Heading -->
+    <h1 class="heading">How It Works</h1>
+
+    <!-- Quick Summary -->
+    <p class="summary">
+        This application is designed to help you prepare for your next interview. Follow these simple steps to get started.
+    </p>
+
+    <!-- Buttons for Steps (Initially showing Step 1 and Step 2) -->
+    <div class="button-container">
+        <button class="steps-btn" id="step1Btn" data-toggle="modal" data-target="#step1Modal">Step 1: Register</button>
+        <button class="steps-btn" id="step2Btn" data-toggle="modal" data-target="#step2Modal">Step 2: Choose Your Plan</button>
+
+        <!-- Hidden buttons for Step 3, Step 4, Step 5 that will appear after clicking on Step 1 or Step 2 -->
+        <button class="steps-btn hide-buttons" id="step3Btn" data-toggle="modal" data-target="#step3Modal">Step 3: Take a Quiz</button>
+        <button class="steps-btn hide-buttons" id="step4Btn" data-toggle="modal" data-target="#step4Modal">Step 4: Review Results</button>
+        <button class="steps-btn hide-buttons" id="step5Btn" data-toggle="modal" data-target="#step5Modal">Step 5: Track Your Progress</button>
+    </div>
+
+    <!-- Modal for Step 1 -->
+    <div class="modal fade" id="step1Modal" tabindex="-1" role="dialog" aria-labelledby="step1ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="step1ModalLabel">Step 1: Register</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>First, you need to register an account by providing your details. This will allow you to track your progress and access all the features.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Step 2 -->
+    <div class="modal fade" id="step2Modal" tabindex="-1" role="dialog" aria-labelledby="step2ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="step2ModalLabel">Step 2: Choose Your Plan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Next, choose a plan that best suits your learning needs. You can choose from different plans offering various features and content.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Step 3 -->
+    <div class="modal fade" id="step3Modal" tabindex="-1" role="dialog" aria-labelledby="step3ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="step3ModalLabel">Step 3: Take a Quiz</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Once registered, take quizzes to test your knowledge and skills. This will help you identify areas for improvement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Step 4 -->
+    <div class="modal fade" id="step4Modal" tabindex="-1" role="dialog" aria-labelledby="step4ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="step4ModalLabel">Step 4: Review Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>After completing quizzes, review your results to see your strengths and weaknesses. Use this information to improve your skills.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Step 5 -->
+    <div class="modal fade" id="step5Modal" tabindex="-1" role="dialog" aria-labelledby="step5ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="step5ModalLabel">Step 5: Track Your Progress</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Finally, track your progress to see how well you are doing. This will help you stay motivated and focused on your learning goals.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Show the other buttons when Step 1 or Step 2 is clicked
+    $('#step1Btn').on('click', function() {
+        $('#step3Btn').removeClass('hide-buttons');
+        $('#step4Btn').removeClass('hide-buttons');
+        $('#step5Btn').removeClass('hide-buttons');
+    });
+
+    $('#step2Btn').on('click', function() {
+        $('#step3Btn').removeClass('hide-buttons');
+        $('#step4Btn').removeClass('hide-buttons');
+        $('#step5Btn').removeClass('hide-buttons');
+    });
+</script>
+
+</body>
+</html>

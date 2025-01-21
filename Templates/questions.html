@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Background Image Styling */
+        body {
+            background-image: url("{{ url_for('static', filename='images/background2.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Custom Styling for Pop-up */
+        .popup-content {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 50%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-background {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .btn-close-popup {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .category-list {
+            cursor: pointer;
+            margin: 10px 0;
+            color: #007bff;
+        }
+
+        .category-list:hover {
+            text-decoration: underline;
+        }
+
+        h3, h5 {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the topic boxes */
+        .topic-box {
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .topic-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .topic-box li {
+            padding: 8px;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .topic-box li:hover {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Questions Category</h1>
+    <p class="text-center" style="font-size: 16px;">Aptitude questions for your placement interviews and competitive exams!</p>
+
+    <!-- Categories Section -->
+    <div class="category-section">
+        <h3><b>Aptitude</b></h3>
+        <div class="topic-box">
+            <ul>
+                <li onclick="showPopup('aptitude_general')">General Aptitude</li>
+                <li onclick="showPopup('aptitude_quants')">Quants</li>
+            </ul>
+        </div>
+
+        <h3><b>Verbal and Reasoning</b></h3>
+        <div class="topic-box">
+            <ul>
+                <li onclick="showPopup('verbal_ability')">Verbal Ability</li>
+                <li onclick="showPopup('logical_reasoning')">Logical Reasoning</li>
+                <li onclick="showPopup('verbal_reasoning')">Verbal Reasoning</li>
+                <li onclick="showPopup('non_verbal_reasoning')">Non-Verbal Reasoning</li>
+            </ul>
+        </div>
+
+        <h3><b>Current Affairs and GK</b></h3>
+        <div class="topic-box">
+            <ul>
+                <li onclick="showPopup('current_affairs')">Current Affairs</li>
+                <li onclick="showPopup('general_knowledge')">Basic General Knowledge</li>
+                <li onclick="showPopup('general_science')">General Science</li>
+            </ul>
+        </div>
+
+        <h3><b>Programming</b></h3>
+        <div class="topic-box">
+            <ul>
+                <li onclick="showPopup('c_programming')">C Programming</li>
+                <li onclick="showPopup('cpp_programming')">C++ Programming</li>
+                <li onclick="showPopup('python_programming')">Python Programming</li>
+                <li onclick="showPopup('java_programming')">Java Programming</li>
+                <li onclick="showPopup('mysql')">MySQL</li>
+                <li onclick="showPopup('data_structures')">Data Structures</li>
+                <li onclick="showPopup('operating_system')">Operating System</li>
+                <li onclick="showPopup('dbms')">DBMS</li>
+                <li onclick="showPopup('computer_networks')">Computer Networks</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Popup Content -->
+    <div class="popup-background" id="popup-background"></div>
+    <div class="popup-content" id="popup-content">
+        <button class="btn-close-popup" onclick="closePopup()">&times;</button>
+        <h4 id="popup-title"></h4>
+        <ul id="popup-topics">
+            <!-- Topics will be inserted dynamically here -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    const topics = {
+        aptitude_general: ["Percentages", "Profit and Loss", "Time and Work", "Time and Distance"],
+        aptitude_quants: ["Probability", "Statistics", "Algebra", "Geometry"],
+        verbal_ability: ["Synonyms", "Antonyms", "Sentence Completion", "Reading Comprehension"],
+        logical_reasoning: ["Puzzles", "Blood Relations", "Direction Sense", "Coding-Decoding"],
+        verbal_reasoning: ["Analogies", "Classification", "Statement-Assumption", "Syllogisms"],
+        non_verbal_reasoning: ["Pattern Matching", "Image Analysis", "Seating Arrangements"],
+        current_affairs: ["Current Events", "Politics", "Economy", "Sports"],
+        general_knowledge: ["History", "Geography", "Civics", "Science"],
+        general_science: ["Physics", "Chemistry", "Biology"],
+        c_programming: ["Data Types", "Loops", "Pointers", "File Handling"],
+        cpp_programming: ["OOP Concepts", "STL", "Inheritance", "Polymorphism"],
+        python_programming: ["Data Structures", "Modules", "File I/O", "Error Handling"],
+        java_programming: ["OOP Concepts", "Multithreading", "JDBC", "Exception Handling"],
+        mysql: ["Queries", "Joins", "Indexes", "Triggers"],
+        data_structures: ["Arrays", "Linked Lists", "Stacks", "Queues"],
+        operating_system: ["Processes", "Threads", "Deadlocks", "Memory Management"],
+        dbms: ["Normalization", "ER Diagrams", "Transactions", "SQL Queries"],
+        computer_networks: ["OSI Model", "TCP/IP", "Routing", "Security"],
+    };
+
+    function showPopup(category) {
+        const topicsList = topics[category];
+        if (topicsList) {
+            const popupTitle = document.getElementById('popup-title');
+            const popupTopics = document.getElementById('popup-topics');
+
+            popupTitle.textContent = `Topics in ${category.replace(/_/g, " ").toUpperCase()}`;
+            popupTopics.innerHTML = topicsList.map(topic => `<li>${topic}</li>`).join("");
+
+            document.getElementById('popup-background').style.display = 'block';
+            document.getElementById('popup-content').style.display = 'block';
+        }
+    }
+
+    function closePopup() {
+        document.getElementById('popup-background').style.display = 'none';
+        document.getElementById('popup-content').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

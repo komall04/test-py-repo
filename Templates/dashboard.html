@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 30px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Navigation options */
+        .nav-options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .nav-options a {
+            font-size: 18px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: normal;
+        }
+
+        .nav-options a:hover {
+            text-decoration: underline;
+        }
+
+        /* Button to go to home */
+        .go-home {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .go-home:hover {
+            background-color: #45a049;
+        }
+
+        /* Create and Add New Section */
+        .create-section {
+            margin-bottom: 30px;
+        }
+
+        .create-section h3 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .create-section button {
+            padding: 12px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .create-section button:hover {
+            background-color: #45a049;
+        }
+
+        /* Modal (Pop-up) Box */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            color: black;
+            width: 500px;
+            max-width: 100%;
+            z-index: 1000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .modal h4 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .modal p {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        /* Input Field and Textarea */
+        .modal label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .modal input, .modal textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .modal input:focus, .modal textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Error message */
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: -8px;
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            color: white;
+            border-radius: 50%;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background-color: #f44336;
+        }
+
+        /* Cancel and Start Buttons */
+        .modal .buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal button {
+            padding: 12px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100px;
+            margin-left: 15px;
+        }
+
+        .modal button:hover {
+            background-color: #45a049;
+        }
+
+        .cancel-btn {
+            background-color: #f44336;
+        }
+
+        .cancel-btn:hover {
+            background-color: #e53935;
+        }
+
+        /* Previous mockup section */
+        .previous-mockups {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .previous-mockups h4 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .mockup-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .mockup-list li {
+            background-color: rgba(255, 255, 255, 0.2);
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* No mockups message */
+        .no-mockups {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Go to home button -->
+        <button class="go-home" onclick="window.location.href='{{ url_for('home') }}'">Go to Home</button>
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            Dashboard
+        </div>
+
+        <!-- Navigation options -->
+        <div class="nav-options">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('questions') }}">Questions</a>
+            <a href="{{ url_for('upgrade') }}">Upgrade</a>
+            <a href="{{ url_for('how_it_works') }}">How It Works?</a>
+        </div>
+
+        <!-- Create and Add New Section -->
+        <div class="create-section">
+            <h3>Create and start your AI mockup interview</h3>
+            <button id="addNewBtn">+ Add New</button>
+        </div>
+
+        <!-- Previous Mockup Interviews -->
+        <div class="previous-mockups">
+            <h4>Previous mockup interviews</h4>
+            <ul class="mockup-list">
+                <!-- If no mockup interviews are created -->
+                {% if not mockups %}
+                    <li class="no-mockups">No previous interviews yet. Start one now!</li>
+                {% else %}
+                    <!-- Loop through mockup interviews -->
+                    {% for mockup in mockups %}
+                        <li>{{ mockup.name }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal (Pop-up Box) -->
+    <div class="modal" id="modal">
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+        <h4>Tell us more about your job interview</h4>
+        <p>Add details about your job position/role, job description, and years of experience.</p>
+
+        <!-- Form Fields -->
+        <form id="jobForm">
+            <label for="jobPosition">Job Role/Position</label>
+            <input type="text" id="jobPosition" placeholder="e.g., Full Stack Developer" required>
+            <div class="error-message" id="jobPositionError"></div>
+
+            <label for="jobDescription">Job Description/Tech Stack</label>
+            <textarea id="jobDescription" placeholder="e.g., React, Angular, Node.js" rows="4" required></textarea>
+            <div class="error-message" id="jobDescriptionError"></div>
+
+            <label for="yearsOfExperience">Years of Experience</label>
+            <input type="number" id="yearsOfExperience" placeholder="e.g., 3" required>
+            <div class="error-message" id="yearsOfExperienceError"></div>
+        </form>
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <button id="cancelBtn" class="cancel-btn">Cancel</button>
+            <button id="startBtn">Start</button>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const addNewBtn = document.getElementById('addNewBtn');
+        const modal = document.getElementById('modal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const startBtn = document.getElementById('startBtn');
+        const jobPositionError = document.getElementById('jobPositionError');
+        const jobDescriptionError = document.getElementById('jobDescriptionError');
+        const yearsOfExperienceError = document.getElementById('yearsOfExperienceError');
+
+        // Show modal when "+ Add New" is clicked
+        addNewBtn.onclick = function() {
+            modal.style.display = "block";
+        };
+
+        // Close modal when "X" is clicked
+        closeModalBtn.onclick = function() {
+            modal.style.display = "none";
+        };
+
+        // Close modal when "Cancel" button is clicked
+        cancelBtn.onclick = function() {
+            modal.style.display = "none";
+        };
+
+        // Start action when "Start" button is clicked
+        startBtn.onclick = function() {
+            const jobPosition = document.getElementById('jobPosition').value;
+            const jobDescription = document.getElementById('jobDescription').value;
+            const yearsOfExperience = document.getElementById('yearsOfExperience').value;
+            let isValid = true;
+
+            // Reset error messages
+            jobPositionError.innerHTML = '';
+            jobDescriptionError.innerHTML = '';
+            yearsOfExperienceError.innerHTML = '';
+
+            // Validate fields
+            if (!jobPosition) {
+                jobPositionError.innerHTML = 'Please fill out this field.';
+                isValid = false;
+            }
+            if (!jobDescription) {
+                jobDescriptionError.innerHTML = 'Please fill out this field.';
+                isValid = false;
+            }
+            if (!yearsOfExperience) {
+                yearsOfExperienceError.innerHTML = 'Please fill out this field.';
+                isValid = false;
+            }
+
+            // Proceed if all fields are valid
+            if (isValid) {
+                modal.style.display = "none";
+                alert("Job mockup started successfully!");
+            }
+        };
+    </script>
+</body>
+</html> 
